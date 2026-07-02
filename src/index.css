@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+body { @apply bg-cream text-ink font-body; }
+
+.prose-himmah h1 { @apply font-display text-3xl font-bold text-emerald mt-4 mb-2; }
+.prose-himmah h2 { @apply font-display text-2xl font-bold text-emerald mt-4 mb-2; }
+.prose-himmah p { @apply mb-3 leading-relaxed; }
+.prose-himmah img { @apply rounded-xl my-4; }
+.prose-himmah .ql-upper { text-transform: uppercase; letter-spacing: 0.04em; }
+
+/* Ikon tombol UPPERCASE kustom di toolbar Quill */
+.ql-toolbar .ql-upper {
+  width: auto !important;
+  font-size: 11px;
+  font-weight: 700;
+}
+.ql-toolbar .ql-upper::before { content: "AA"; }
+
+/* focus ring aksesibilitas */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid #D4AF37;
+  outline-offset: 2px;
+}
