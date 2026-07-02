@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './lib/AuthContext'
+import { SettingsProvider } from './lib/SettingsContext'
 import { supabaseReady } from './lib/supabase'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -18,10 +19,12 @@ import KelolaBerita from './pages/admin/KelolaBerita'
 import KelolaPengurus from './pages/admin/KelolaPengurus'
 import KelolaGaleri from './pages/admin/KelolaGaleri'
 import KelolaAgenda from './pages/admin/KelolaAgenda'
+import KelolaPengaturan from './pages/admin/KelolaPengaturan'
 
 export default function App() {
   return (
     <AuthProvider>
+      <SettingsProvider>
       <div className="min-h-screen flex flex-col">
         {!supabaseReady && (
           <div className="bg-red-600 text-white text-sm text-center py-2 px-4">
@@ -51,11 +54,13 @@ export default function App() {
               <Route path="pengurus" element={<KelolaPengurus />} />
               <Route path="galeri" element={<KelolaGaleri />} />
               <Route path="agenda" element={<KelolaAgenda />} />
+              <Route path="pengaturan" element={<KelolaPengaturan />} />
             </Route>
           </Routes>
         </div>
         <Footer />
       </div>
+      </SettingsProvider>
     </AuthProvider>
   )
 }
