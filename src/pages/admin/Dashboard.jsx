@@ -6,6 +6,7 @@ const menu = [
   { to: '/admin/dashboard/pengurus', label: 'Kelola Pengurus' },
   { to: '/admin/dashboard/galeri', label: 'Kelola Galeri' },
   { to: '/admin/dashboard/agenda', label: 'Kelola Agenda' },
+  { to: '/admin/dashboard/pengaturan', label: 'Pengaturan Situs' },
 ]
 
 export default function Dashboard() {
