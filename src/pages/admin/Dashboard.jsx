@@ -5,6 +5,7 @@ const menu = [
   { to: '/admin/dashboard/berita', label: 'Kelola Berita' },
   { to: '/admin/dashboard/pengurus', label: 'Kelola Pengurus' },
   { to: '/admin/dashboard/galeri', label: 'Kelola Galeri' },
+  { to: '/admin/dashboard/agenda', label: 'Kelola Agenda' },
 ]
 
 export default function Dashboard() {

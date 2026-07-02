@@ -66,6 +66,18 @@ create table if not exists galeri (
 alter table galeri add column if not exists unggulan boolean default false;
 alter table galeri add column if not exists urutan integer default 0;
 
+-- Agenda / kegiatan mendatang
+create table if not exists agenda (
+  id uuid primary key default gen_random_uuid(),
+  judul text not null,
+  deskripsi text,
+  lokasi text,
+  tanggal_mulai timestamptz not null,
+  tanggal_selesai timestamptz,
+  cover_url text,
+  created_at timestamptz default now()
+);
+
 -- ============================================================
 -- Row Level Security: publik boleh BACA, hanya admin (login) boleh TULIS
 -- ============================================================
@@ -75,6 +87,7 @@ alter table divisi enable row level security;
 alter table program_kerja enable row level security;
 alter table pengurus enable row level security;
 alter table galeri enable row level security;
+alter table agenda enable row level security;
 
 create policy "publik baca pengaturan" on pengaturan for select using (true);
 create policy "admin kelola pengaturan" on pengaturan for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
@@ -94,9 +107,12 @@ create policy "admin kelola pengurus" on pengurus for all using (auth.role() = '
 create policy "publik baca galeri" on galeri for select using (true);
 create policy "admin kelola galeri" on galeri for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
+create policy "publik baca agenda" on agenda for select using (true);
+create policy "admin kelola agenda" on agenda for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+
 -- ============================================================
 -- Storage buckets: buat lewat dashboard Supabase (Storage > New bucket),
--- set PUBLIC = true, dengan nama persis: "berita", "pengurus", "galeri"
+-- set PUBLIC = true, dengan nama persis: "berita", "pengurus", "galeri", "agenda"
 -- Lalu tambahkan policy upload utk authenticated user pada masing-masing bucket:
 -- ============================================================
 -- (Jalankan setelah bucket dibuat)

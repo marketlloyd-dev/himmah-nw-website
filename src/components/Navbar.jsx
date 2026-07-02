@@ -5,6 +5,7 @@ const links = [
   { to: '/', label: 'Beranda' },
   { to: '/informasi', label: 'Informasi' },
   { to: '/seputar-himmah', label: 'Seputar HIMMAH' },
+  { to: '/agenda', label: 'Agenda' },
   { to: '/galeri', label: 'Galeri' },
 ]
 

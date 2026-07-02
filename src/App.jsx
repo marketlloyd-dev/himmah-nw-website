@@ -10,12 +10,14 @@ import Informasi from './pages/Informasi'
 import SeputarHimmah from './pages/SeputarHimmah'
 import BeritaDetail from './pages/BeritaDetail'
 import Galeri from './pages/Galeri'
+import Agenda from './pages/Agenda'
 
 import Login from './pages/admin/Login'
 import Dashboard from './pages/admin/Dashboard'
 import KelolaBerita from './pages/admin/KelolaBerita'
 import KelolaPengurus from './pages/admin/KelolaPengurus'
 import KelolaGaleri from './pages/admin/KelolaGaleri'
+import KelolaAgenda from './pages/admin/KelolaAgenda'
 
 export default function App() {
   return (
@@ -34,6 +36,7 @@ export default function App() {
             <Route path="/seputar-himmah" element={<SeputarHimmah />} />
             <Route path="/seputar-himmah/:slug" element={<BeritaDetail />} />
             <Route path="/galeri" element={<Galeri />} />
+            <Route path="/agenda" element={<Agenda />} />
 
             <Route path="/admin" element={<Login />} />
             <Route
@@ -47,6 +50,7 @@ export default function App() {
               <Route path="berita" element={<KelolaBerita />} />
               <Route path="pengurus" element={<KelolaPengurus />} />
               <Route path="galeri" element={<KelolaGaleri />} />
+              <Route path="agenda" element={<KelolaAgenda />} />
             </Route>
           </Routes>
         </div>
