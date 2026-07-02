@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { useSettings } from '../lib/SettingsContext'
 import NewsCard from '../components/NewsCard'
 
 export default function SeputarHimmah() {
+  const { settings } = useSettings()
   const [berita, setBerita] = useState([])
   const [q, setQ] = useState('')
 
@@ -21,8 +23,8 @@ export default function SeputarHimmah() {
     <div className="max-w-6xl mx-auto px-4 py-14">
       <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
         <div>
-          <h1 className="font-display text-3xl font-bold text-emerald">Seputar HIMMAH</h1>
-          <p className="text-ink/60 mt-1">Kabar dan kegiatan terbaru dari komisariat.</p>
+          <h1 className="font-display text-3xl font-bold text-emerald">{settings.seputar_judul || 'Seputar HIMMAH'}</h1>
+          <p className="text-ink/60 mt-1">{settings.seputar_deskripsi || 'Kabar dan kegiatan terbaru dari komisariat.'}</p>
         </div>
         <input
           value={q}

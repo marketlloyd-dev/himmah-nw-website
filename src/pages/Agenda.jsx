@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { useSettings } from '../lib/SettingsContext'
 
 function formatTanggal(iso) {
   return new Date(iso).toLocaleString('id-ID', {
@@ -9,6 +10,7 @@ function formatTanggal(iso) {
 }
 
 export default function Agenda() {
+  const { settings } = useSettings()
   const [semua, setSemua] = useState([])
 
   useEffect(() => {
@@ -25,8 +27,8 @@ export default function Agenda() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-14">
-      <h1 className="font-display text-3xl font-bold text-emerald">Agenda Kegiatan</h1>
-      <p className="text-ink/60 mt-2">Jadwal kegiatan HIMMAH NW Komisariat STMIK Syaikh Zainuddin NW Anjani.</p>
+      <h1 className="font-display text-3xl font-bold text-emerald">{settings.agenda_judul || 'Agenda Kegiatan'}</h1>
+      <p className="text-ink/60 mt-2">{settings.agenda_deskripsi || 'Jadwal kegiatan HIMMAH NW Komisariat STMIK Syaikh Zainuddin NW Anjani.'}</p>
 
       {mendatang.length === 0 ? (
         <p className="text-ink/50 mt-8">Belum ada agenda mendatang.</p>

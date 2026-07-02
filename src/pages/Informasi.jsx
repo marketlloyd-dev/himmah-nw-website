@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { useSettings } from '../lib/SettingsContext'
 import MemberCoverflow from '../components/MemberCoverflow'
 import ProgramKerjaAccordion from '../components/ProgramKerjaAccordion'
 
 export default function Informasi() {
+  const { settings } = useSettings()
   const [pengurus, setPengurus] = useState([])
   const [divisi, setDivisi] = useState([])
 
@@ -21,9 +23,9 @@ export default function Informasi() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-14">
-      <h1 className="font-display text-3xl font-bold text-emerald">Informasi Kepengurusan</h1>
+      <h1 className="font-display text-3xl font-bold text-emerald">{settings.informasi_judul || 'Informasi Kepengurusan'}</h1>
       <p className="text-ink/60 mt-2 max-w-2xl">
-        Susunan pengurus dan program kerja Komisariat HIMMAH NW STMIK Syaikh Zainuddin NW Anjani.
+        {settings.informasi_deskripsi || 'Susunan pengurus dan program kerja Komisariat HIMMAH NW STMIK Syaikh Zainuddin NW Anjani.'}
       </p>
 
       {/* Pengurus inti */}

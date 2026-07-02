@@ -1,22 +1,33 @@
 /** @type {import('tailwindcss').Config} */
+
+// Warna dibaca dari CSS variable (--color-xxx, format "R G B") supaya bisa
+// diubah realtime dari admin (lihat SettingsContext.jsx) tanpa perlu rebuild.
+function withOpacity(variableName) {
+  return ({ opacityValue }) =>
+    opacityValue !== undefined
+      ? `rgb(var(${variableName}) / ${opacityValue})`
+      : `rgb(var(${variableName}))`
+}
+
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {
       colors: {
-        // Palet dari moodboard "Emerald & Gold" -> disesuaikan utk identitas HIMMAH NW
+        // Default fallback tetap sama seperti sebelumnya (palet "Emerald & Gold"),
+        // nilai aktualnya dioverride lewat CSS variable di src/index.css / SettingsContext.
         emerald: {
-          DEFAULT: '#0B3D2E',
-          dark: '#082B20',
-          light: '#145C46',
+          DEFAULT: withOpacity('--color-emerald'),
+          dark: withOpacity('--color-emerald-dark'),
+          light: withOpacity('--color-emerald-light'),
         },
         gold: {
-          DEFAULT: '#D4AF37',
-          light: '#E8CA6B',
-          dark: '#A9861F',
+          DEFAULT: withOpacity('--color-gold'),
+          light: withOpacity('--color-gold-light'),
+          dark: withOpacity('--color-gold-dark'),
         },
-        cream: '#F6F4EE',
-        ink: '#12211E',
+        cream: withOpacity('--color-cream'),
+        ink: withOpacity('--color-ink'),
       },
       fontFamily: {
         display: ['"Fraunces"', 'serif'],

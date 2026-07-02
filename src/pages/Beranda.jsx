@@ -1,23 +1,16 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { useSettings } from '../lib/SettingsContext'
 import NewsCard from '../components/NewsCard'
 import HeroCoverflow from '../components/HeroCoverflow'
 
 export default function Beranda() {
-  const [sambutan, setSambutan] = useState(null)
+  const { settings } = useSettings()
   const [beritaTerbaru, setBeritaTerbaru] = useState([])
   const [beritaPopuler, setBeritaPopuler] = useState([])
   const [kegiatanUnggulan, setKegiatanUnggulan] = useState([])
 
   useEffect(() => {
-    // Kata sambutan ketua diambil dari tabel "pengaturan" (key = 'sambutan_ketua')
-    supabase
-      .from('pengaturan')
-      .select('*')
-      .eq('key', 'sambutan_ketua')
-      .maybeSingle()
-      .then(({ data }) => setSambutan(data))
-
     supabase
       .from('berita')
       .select('*')
@@ -64,12 +57,17 @@ export default function Beranda() {
       {heroSlides.length > 0 ? (
         <HeroCoverflow slides={heroSlides} />
       ) : (
-        <section className="bg-emerald-dark text-cream text-center py-20 px-4">
+        <section
+          className="bg-emerald-dark text-cream text-center py-20 px-4 bg-cover bg-center"
+          style={settings.hero_image_url ? {
+            backgroundImage: `linear-gradient(rgba(8,43,32,.75), rgba(8,43,32,.75)), url(${settings.hero_image_url})`,
+          } : undefined}
+        >
           <p className="text-gold font-semibold tracking-wide text-sm uppercase mb-3">
-            Himpunan Mahasiswa Nahdlatul Wathan
+            {settings.tagline}
           </p>
           <h1 className="font-display text-3xl sm:text-5xl font-black">
-            HIMMAH NW Komisariat STMIK Syaikh Zainuddin NW Anjani
+            {settings.nama_situs} Komisariat STMIK Syaikh Zainuddin NW Anjani
           </h1>
         </section>
       )}
@@ -77,11 +75,11 @@ export default function Beranda() {
       {/* Kata sambutan ketua */}
       <section className="max-w-4xl mx-auto px-4 py-14 text-center">
         <p className="text-xs uppercase tracking-widest text-gold-dark font-semibold mb-2">Kata Sambutan Ketua</p>
-        {sambutan ? (
+        {settings.sambutan_ketua ? (
           <div>
-            <p className="text-ink/80 leading-relaxed italic text-lg">"{sambutan.value}"</p>
-            {sambutan.nama_ketua && (
-              <p className="mt-4 text-sm font-semibold text-emerald">— {sambutan.nama_ketua}, Ketua Komisariat</p>
+            <p className="text-ink/80 leading-relaxed italic text-lg">"{settings.sambutan_ketua}"</p>
+            {settings.nama_ketua && (
+              <p className="mt-4 text-sm font-semibold text-emerald">— {settings.nama_ketua}, Ketua Komisariat</p>
             )}
           </div>
         ) : (

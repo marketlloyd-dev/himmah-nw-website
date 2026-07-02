@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Default palet "Emerald & Gold" — dioverride realtime oleh SettingsContext
+     begitu data warna dari admin (tabel pengaturan_situs) selesai dimuat. */
+  --color-emerald: 11 61 46;
+  --color-emerald-dark: 8 43 32;
+  --color-emerald-light: 20 92 70;
+  --color-gold: 212 175 55;
+  --color-gold-light: 232 202 107;
+  --color-gold-dark: 169 134 31;
+  --color-cream: 246 244 238;
+  --color-ink: 18 33 30;
+}
+
 html { scroll-behavior: smooth; }
 body { @apply bg-cream text-ink font-body; }
 

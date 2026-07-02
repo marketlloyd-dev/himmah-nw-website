@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { useSettings } from '../lib/SettingsContext'
 
 export default function Galeri() {
+  const { settings } = useSettings()
   const [foto, setFoto] = useState([])
   const [aktif, setAktif] = useState(null)
 
@@ -15,8 +17,8 @@ export default function Galeri() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-14">
-      <h1 className="font-display text-3xl font-bold text-emerald">Galeri Kegiatan</h1>
-      <p className="text-ink/60 mt-2">Dokumentasi kegiatan-kegiatan HIMMAH NW Komisariat STMIK Syaikh Zainuddin NW Anjani.</p>
+      <h1 className="font-display text-3xl font-bold text-emerald">{settings.galeri_judul || 'Galeri Kegiatan'}</h1>
+      <p className="text-ink/60 mt-2">{settings.galeri_deskripsi || 'Dokumentasi kegiatan-kegiatan HIMMAH NW Komisariat STMIK Syaikh Zainuddin NW Anjani.'}</p>
 
       {foto.length === 0 ? (
         <p className="text-ink/50 mt-8">Belum ada foto kegiatan.</p>

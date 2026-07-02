@@ -78,6 +78,66 @@ create table if not exists agenda (
   created_at timestamptz default now()
 );
 
+-- Pengaturan situs (satu baris saja, id selalu 1) — logo, sambutan, kontak, sosmed dll,
+-- semua yang dulu hardcode di Navbar/Footer/Beranda sekarang bisa diedit dari admin.
+create table if not exists pengaturan_situs (
+  id integer primary key default 1,
+  nama_situs text default 'HIMMAH NW',
+  tagline text default 'Himpunan Mahasiswa Nahdlatul Wathan',
+  logo_url text,
+  hero_image_url text,   -- gambar latar hero Beranda kalau belum ada berita
+  sambutan_ketua text,
+  nama_ketua text,
+  alamat text default 'STMIK Syaikh Zainuddin NW Anjani, Lombok Timur, NTB',
+  email text default 'himmah.stmikszn@gmail.com',
+  whatsapp text,
+  instagram text,
+  facebook text,
+  youtube text,
+  footer_deskripsi text default 'Komisariat STMIK Syaikh Zainuddin NW Anjani. Wadah perjuangan, dakwah, dan pengembangan diri mahasiswa Nahdlatul Wathan.',
+  -- Judul & deskripsi tiap halaman (kosong = pakai default bawaan komponen)
+  informasi_judul text,
+  informasi_deskripsi text,
+  seputar_judul text,
+  seputar_deskripsi text,
+  galeri_judul text,
+  galeri_deskripsi text,
+  agenda_judul text,
+  agenda_deskripsi text,
+  -- Tema warna (hex), diterapkan realtime lewat CSS variable, tanpa perlu rebuild
+  warna_primer text default '#0B3D2E',
+  warna_primer_gelap text default '#082B20',
+  warna_primer_terang text default '#145C46',
+  warna_aksen text default '#D4AF37',
+  warna_aksen_terang text default '#E8CA6B',
+  warna_aksen_gelap text default '#A9861F',
+  warna_latar text default '#F6F4EE',
+  warna_teks text default '#12211E',
+  updated_at timestamptz default now(),
+  constraint pengaturan_situs_singleton check (id = 1)
+);
+insert into pengaturan_situs (id) values (1) on conflict (id) do nothing;
+
+-- Kalau tabel pengaturan_situs sudah pernah dibuat sebelumnya (versi lama tanpa kolom di atas),
+-- jalankan blok ini saja supaya kolom baru nambah tanpa hapus data yang sudah ada:
+alter table pengaturan_situs add column if not exists hero_image_url text;
+alter table pengaturan_situs add column if not exists informasi_judul text;
+alter table pengaturan_situs add column if not exists informasi_deskripsi text;
+alter table pengaturan_situs add column if not exists seputar_judul text;
+alter table pengaturan_situs add column if not exists seputar_deskripsi text;
+alter table pengaturan_situs add column if not exists galeri_judul text;
+alter table pengaturan_situs add column if not exists galeri_deskripsi text;
+alter table pengaturan_situs add column if not exists agenda_judul text;
+alter table pengaturan_situs add column if not exists agenda_deskripsi text;
+alter table pengaturan_situs add column if not exists warna_primer text default '#0B3D2E';
+alter table pengaturan_situs add column if not exists warna_primer_gelap text default '#082B20';
+alter table pengaturan_situs add column if not exists warna_primer_terang text default '#145C46';
+alter table pengaturan_situs add column if not exists warna_aksen text default '#D4AF37';
+alter table pengaturan_situs add column if not exists warna_aksen_terang text default '#E8CA6B';
+alter table pengaturan_situs add column if not exists warna_aksen_gelap text default '#A9861F';
+alter table pengaturan_situs add column if not exists warna_latar text default '#F6F4EE';
+alter table pengaturan_situs add column if not exists warna_teks text default '#12211E';
+
 -- ============================================================
 -- Row Level Security: publik boleh BACA, hanya admin (login) boleh TULIS
 -- ============================================================
@@ -110,9 +170,13 @@ create policy "admin kelola galeri" on galeri for all using (auth.role() = 'auth
 create policy "publik baca agenda" on agenda for select using (true);
 create policy "admin kelola agenda" on agenda for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
+alter table pengaturan_situs enable row level security;
+create policy "publik baca pengaturan_situs" on pengaturan_situs for select using (true);
+create policy "admin kelola pengaturan_situs" on pengaturan_situs for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+
 -- ============================================================
 -- Storage buckets: buat lewat dashboard Supabase (Storage > New bucket),
--- set PUBLIC = true, dengan nama persis: "berita", "pengurus", "galeri", "agenda"
+-- set PUBLIC = true, dengan nama persis: "berita", "pengurus", "galeri", "agenda", "pengaturan"
 -- Lalu tambahkan policy upload utk authenticated user pada masing-masing bucket:
 -- ============================================================
 -- (Jalankan setelah bucket dibuat)
