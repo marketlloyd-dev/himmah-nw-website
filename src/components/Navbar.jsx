@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { useSettings } from '../lib/SettingsContext'
 
 const links = [
   { to: '/', label: 'Beranda' },
@@ -11,6 +12,7 @@ const links = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const { settings } = useSettings()
 
   const linkClass = ({ isActive }) =>
     `relative px-1 py-2 text-sm font-medium tracking-wide uppercase transition-colors ${
@@ -23,8 +25,14 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 bg-emerald-dark border-b border-cream/10">
       <nav className="max-w-6xl mx-auto flex items-center justify-between px-4 py-4">
         <NavLink to="/" className="flex items-center gap-2 font-display font-bold text-cream text-lg">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gold text-emerald-dark font-black">H</span>
-          <span>HIMMAH <span className="text-gold">NW</span></span>
+          {settings.logo_url ? (
+            <img src={settings.logo_url} alt={settings.nama_situs} className="h-9 w-9 rounded-full object-cover" />
+          ) : (
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gold text-emerald-dark font-black">
+              {(settings.nama_situs || 'H').charAt(0)}
+            </span>
+          )}
+          <span>{settings.nama_situs}</span>
         </NavLink>
 
         <div className="hidden md:flex items-center gap-8">
