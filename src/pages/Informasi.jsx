@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import MemberCoverflow from '../components/MemberCoverflow'
+import ProgramKerjaAccordion from '../components/ProgramKerjaAccordion'
 
 export default function Informasi() {
   const [pengurus, setPengurus] = useState([])
@@ -55,9 +56,7 @@ export default function Informasi() {
               </div>
 
               {d.program_kerja?.length > 0 && (
-                <ul className="mt-6 list-disc list-inside text-sm text-ink/80 space-y-1">
-                  {d.program_kerja.map((pk) => <li key={pk.id}>{pk.nama}</li>)}
-                </ul>
+                <ProgramKerjaAccordion programKerja={d.program_kerja} />
               )}
             </div>
           )
